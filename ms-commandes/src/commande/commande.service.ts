@@ -10,6 +10,7 @@ import { Commande } from './entities/commande.entity';
 @Injectable()
 export class CommandeService {
   private readonly UTILISATEUR_URL = process.env.UTILISATEUR_URL || "http://localhost:8000/utilisateurs/"
+  
   constructor(
     @InjectRepository(Commande)
     private repository: Repository<Commande>,
