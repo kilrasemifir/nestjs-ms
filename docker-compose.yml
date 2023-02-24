@@ -104,5 +104,17 @@ services:
     ports:
       - 3000:3000
   
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - adminer
+      - commandes
+      - stocks
+      - utilisateurs
+  
 volumes:
   prometheus_data: {}
