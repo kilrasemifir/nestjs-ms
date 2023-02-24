@@ -11,7 +11,6 @@ export class StockService {
   ){}
 
   async onModuleInit() {
-  
     this.client.subscribeToResponseOf('stocks');
     this.client.connect();
   }
@@ -20,8 +19,8 @@ export class StockService {
     console.log(createStockDto)
     this.client.send('stocks', {
       key: 1,
-      value: createStockDto
-    });
+      value: JSON.stringify(createStockDto)
+    }).subscribe(console.log);
   }
 
   findAll() {
