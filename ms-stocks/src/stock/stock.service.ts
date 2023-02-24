@@ -1,11 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices/client';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 
 @Injectable()
 export class StockService {
+
+  constructor(
+    @Inject('STOCK_PUBLISHER') private readonly client: ClientKafka
+  ){}
+
+  async onModuleInit() {
+  
+    this.client.subscribeToResponseOf('stocks');
+    this.client.connect();
+  }
+
   create(createStockDto: CreateStockDto) {
-    return 'This action adds a new stock';
+    console.log(createStockDto)
+    this.client.send('stocks', {
+      key: 1,
+      value: createStockDto
+    });
   }
 
   findAll() {
