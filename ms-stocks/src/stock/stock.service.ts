@@ -1,5 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices/client';
+import { InjectRepository } from '@nestjs/typeorm/dist';
+import { Repository } from 'typeorm';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { StockEvent } from './dto/stock.event';
 import { UpdateStockDto } from './dto/update-stock.dto';
@@ -9,7 +11,10 @@ import { Stock } from './entities/stock.entity';
 export class StockService {
 
   constructor(
-    @Inject('STOCK_PUBLISHER') private readonly client: ClientKafka
+    @Inject('STOCK_PUBLISHER') 
+    private readonly client: ClientKafka,
+    @InjectRepository(Stock)
+    private readonly repository: Repository<Stock>
   ){}
 
   async onModuleInit() {
@@ -24,25 +29,44 @@ export class StockService {
       data: dto,
       demmande: "create"
     }
+    console.log(event);
     this.client.send('stocks', {
       key: dto.produitId,
       value: JSON.stringify(event)
-    }).subscribe(console.log);
+    }).subscribe();
   }
 
   findAll() {
-    return `This action returns all stock`;
+    return this.repository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} stock`;
+    return this.repository.findOne({where: {id}});
   }
 
-  update(id: number, updateStockDto: UpdateStockDto) {
-    return `This action updates a #${id} stock`;
+  update(id: number, dto: UpdateStockDto) {
+    const event: StockEvent = {
+      timestamp: new Date(),
+      userId: 1,
+      data: dto,
+      demmande: "update"
+    }
+    this.client.send('stocks', {
+      key: id,
+      value: JSON.stringify(event)
+    }).subscribe();
   }
 
   remove(id: number) {
-    return `This action removes a #${id} stock`;
+    const event: StockEvent = {
+      timestamp: new Date(),
+      userId: 1,
+      data: {id},
+      demmande: "delete"
+    }
+    this.client.send('stocks', {
+      key: id,
+      value: JSON.stringify(event)
+    }).subscribe();
   }
 }

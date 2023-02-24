@@ -3,6 +3,8 @@ import { StockService } from './stock.service';
 import { StockController } from './stock.controller';
 import { ClientsModule } from '@nestjs/microservices';
 import { Transport } from '@nestjs/microservices/enums';
+import { TypeOrmModule } from '@nestjs/typeorm/dist';
+import { Stock } from './entities/stock.entity';
 
 @Module({
   imports: [
@@ -17,7 +19,8 @@ import { Transport } from '@nestjs/microservices/enums';
           },      
         }
       }
-    ])
+    ]),
+    TypeOrmModule.forFeature([Stock]),
   ],
   controllers: [StockController],
   providers: [StockService]

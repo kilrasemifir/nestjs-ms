@@ -20,7 +20,13 @@ export class AppController {
   async getStocks(@Payload() data: any) {
     if (data.demmande === 'create') {
       return this.appService.create(data.data);
+    } else if (data.demmande === 'update') {
+      return this.appService.update(data.key, data.data);
+    } else if (data.demmande === 'delete') {
+      return this.appService.delete(data.data.id);
     }
+
+    
   }
 
 }

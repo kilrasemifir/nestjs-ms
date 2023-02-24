@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices/enums';
 import { ClientsModule } from '@nestjs/microservices/module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Stock } from './stock.entity';
 
 @Module({
   imports: [
@@ -20,7 +22,18 @@ import { AppService } from './app.service';
           }    
         }
       }
-    ])
+    ]),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      database: 'stocks',
+      username: 'root',
+      password: 'root',
+      entities: [Stock],
+      synchronize: true,
+    }),
+    TypeOrmModule.forFeature([Stock]),
   ],
   controllers: [AppController],
   providers: [AppService],
