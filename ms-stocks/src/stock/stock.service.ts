@@ -29,7 +29,6 @@ export class StockService {
       data: dto,
       demmande: "create"
     }
-    console.log(event);
     this.client.send('stocks', {
       key: dto.produitId,
       value: JSON.stringify(event)
