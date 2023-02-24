@@ -15,7 +15,7 @@ import { Stock } from './stock.entity';
         options: {
           client: {
             clientId: 'stock1',
-            brokers: ['localhost:9092'],
+            brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
           },
           consumer: {
             groupId: 'stock-handler'
@@ -25,11 +25,10 @@ import { Stock } from './stock.entity';
     ]),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      database: 'stocks',
-      username: 'root',
-      password: 'root',
+      host: process.env.DB_HOST || "localhost",
+      port: parseInt(process.env.DB_PORT) || 3306,
+      username: process.env.DB_USERNAME || "root",
+      password: process.env.DB_PASSWORD || "root",
       entities: [Stock],
       synchronize: true,
     }),

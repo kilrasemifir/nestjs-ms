@@ -25,7 +25,20 @@ services:
     environment:
       - DB_HOST=mysql
       - UTILISATEURS_HOST=utilisateurs
-  
+  stocks:
+    build: ./ms-stocks
+    ports:
+    - 8002:8002
+    environment:
+      - DB_HOST=mysql
+      - KAFKA_HOST=broker:9092
+  stocks-handler:
+    build: ./ms-stocks-handler
+    ports:
+    - 8003:8002
+    environment:
+      - DB_HOST=mysql
+      - KAFKA_HOST=broker:9092
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
     environment:
