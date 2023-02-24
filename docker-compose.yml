@@ -4,8 +4,23 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
   adminer:
     image: adminer
     ports:
      - 9000:8080
+  
+  utilisateurs:
+    build: ./ms-utilisateurs
+    ports:
+    - 8000:8000
+    environment:
+      - DB_HOST=mysql
+
+  commandes:
+    build: ./ms-commandes
+    ports:
+    - 8001:8001
+    environment:
+      - DB_HOST=mysql
+      - UTILISATEURS_HOST=utilisateurs
