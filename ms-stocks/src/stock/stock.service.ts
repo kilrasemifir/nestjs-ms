@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices/client';
 import { CreateStockDto } from './dto/create-stock.dto';
+import { StockEvent } from './dto/stock.event';
 import { UpdateStockDto } from './dto/update-stock.dto';
+import { Stock } from './entities/stock.entity';
 
 @Injectable()
 export class StockService {
@@ -15,11 +17,16 @@ export class StockService {
     this.client.connect();
   }
 
-  create(createStockDto: CreateStockDto) {
-    console.log(createStockDto)
+  create(dto: Stock) {
+    const event: StockEvent = {
+      timestamp: new Date(),
+      userId: 1,
+      data: dto,
+      demmande: "create"
+    }
     this.client.send('stocks', {
-      key: 1,
-      value: JSON.stringify(createStockDto)
+      key: dto.produitId,
+      value: JSON.stringify(event)
     }).subscribe(console.log);
   }
 

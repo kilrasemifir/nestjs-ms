@@ -18,7 +18,9 @@ export class AppController {
 
   @MessagePattern('stocks')
   async getStocks(@Payload() data: any) {
-    console.log("data", data, typeof(data));
+    if (data.demmande === 'create') {
+      return this.appService.create(data.data);
+    }
   }
 
 }
