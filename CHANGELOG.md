@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/kilrasemifir/nestjs-ms/compare/v1.1.0...v1.2.0) (2023-02-24)
+
+
+### Features
+
+* mise en place d'un event sourcing ([41765bf](https://github.com/kilrasemifir/nestjs-ms/commit/41765bfccc569b1a2058929322e4576060a9c552))
+* mise en place des event create ([27c7684](https://github.com/kilrasemifir/nestjs-ms/commit/27c76840986a7ea32caab4bb15953700a4309c01))
+
 ## 1.1.0 (2023-02-24)
 
 
